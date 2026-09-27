@@ -12,3 +12,4 @@ document.addEventListener('DOMContentLoaded',function(){
  box.addEventListener('touchend',function(e){const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy))show(i+(dx<0?1:-1))},{passive:true});
  show(0);
 });
+document.addEventListener('DOMContentLoaded',function(){const btn=document.querySelector('.mobile-menu-toggle'),nav=document.querySelector('.nav nav');if(!btn||!nav)return;btn.addEventListener('click',function(){const open=nav.classList.toggle('mobile-open');btn.classList.toggle('open',open);btn.setAttribute('aria-expanded',String(open));btn.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú')});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',function(){nav.classList.remove('mobile-open');btn.classList.remove('open');btn.setAttribute('aria-expanded','false');btn.setAttribute('aria-label','Abrir menú')}))});

@@ -3,50 +3,53 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',
 document.addEventListener('DOMContentLoaded',()=>{
   const gallery=document.querySelector('.ig-gallery');
   if(!gallery)return;
-  const track=gallery.querySelector('.ig-track');
   const slides=Array.from(gallery.querySelectorAll('.ig-slide'));
   const prev=gallery.querySelector('.ig-prev');
   const next=gallery.querySelector('.ig-next');
   const counter=gallery.querySelector('#ig-current');
   const dotsBox=gallery.querySelector('.ig-dots');
-  if(!track||!slides.length)return;
+  if(!slides.length)return;
 
-  let current=0;
-  let startX=0;
+  let current=0, startX=0, startY=0;
 
   if(dotsBox){
     dotsBox.innerHTML='';
     slides.forEach((_,n)=>{
-      const dot=document.createElement('button');
-      dot.type='button';
-      dot.className='ig-dot';
-      dot.setAttribute('aria-label','Ir a foto '+(n+1));
-      dot.addEventListener('click',()=>go(n));
-      dotsBox.appendChild(dot);
+      const d=document.createElement('button');
+      d.type='button';
+      d.className='ig-dot';
+      d.setAttribute('aria-label','Ir a foto '+(n+1));
+      d.addEventListener('click',()=>show(n));
+      dotsBox.appendChild(d);
     });
   }
 
-  function go(n){
+  function show(n){
     current=(n+slides.length)%slides.length;
-    track.style.transform='translate3d(-'+(current*100)+'%,0,0)';
-    if(counter)counter.textContent=current+1;
+    slides.forEach((slide,k)=>slide.classList.toggle('is-active',k===current));
+    if(counter)counter.textContent=String(current+1);
     gallery.querySelectorAll('.ig-dot').forEach((d,k)=>d.classList.toggle('active',k===current));
   }
 
-  prev?.addEventListener('click',e=>{e.preventDefault();go(current-1)});
-  next?.addEventListener('click',e=>{e.preventDefault();go(current+1)});
+  prev?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();show(current-1)});
+  next?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();show(current+1)});
 
-  track.addEventListener('touchstart',e=>{startX=e.touches[0].clientX},{passive:true});
-  track.addEventListener('touchend',e=>{
-    const dx=e.changedTouches[0].clientX-startX;
-    if(Math.abs(dx)>45)go(current+(dx<0?1:-1));
+  gallery.addEventListener('touchstart',e=>{
+    startX=e.touches[0].clientX;
+    startY=e.touches[0].clientY;
   },{passive:true});
 
-  gallery.setAttribute('tabindex','0');
+  gallery.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-startX;
+    const dy=e.changedTouches[0].clientY-startY;
+    if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)*1.25) show(current+(dx<0?1:-1));
+  },{passive:true});
+
+  gallery.tabIndex=0;
   gallery.addEventListener('keydown',e=>{
-    if(e.key==='ArrowLeft')go(current-1);
-    if(e.key==='ArrowRight')go(current+1);
+    if(e.key==='ArrowLeft'){e.preventDefault();show(current-1)}
+    if(e.key==='ArrowRight'){e.preventDefault();show(current+1)}
   });
 
-  go(0);
+  show(0);
 });

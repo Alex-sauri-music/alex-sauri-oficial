@@ -19,3 +19,19 @@
 .ig-frame{overflow:hidden!important}
 .ig-track{display:flex!important;flex-flow:row nowrap!important;width:auto!important;transition:transform .4s ease!important}
 .ig-slide{position:relative!important;display:flex!important;flex:0 0 100%!important;width:100%!important;min-width:100%!important;max-width:none!important}
+
+/* Definitive gallery fix: no translated multi-slide track */
+.ig-gallery{width:min(100%,720px)!important;margin:30px auto 0!important;overflow:visible!important}
+.ig-frame{position:relative!important;width:100%!important;overflow:hidden!important;background:#050505!important;touch-action:pan-y!important;overscroll-behavior:contain!important}
+.ig-track{display:block!important;width:100%!important;transform:none!important;transition:none!important}
+.ig-slide{display:none!important;width:100%!important;min-width:0!important;max-width:100%!important;aspect-ratio:4/5!important;align-items:center!important;justify-content:center!important;background:#050505!important}
+.ig-slide.is-active{display:flex!important}
+.ig-slide img{display:block!important;width:100%!important;height:100%!important;max-width:100%!important;object-fit:contain!important;margin:0!important}
+@media(max-width:800px){
+  .gallery-section{overflow-x:hidden!important}
+  .ig-gallery{width:100%!important;max-width:100%!important;margin:18px auto 0!important}
+  .ig-frame{width:100%!important;max-width:100%!important;touch-action:pan-y!important}
+  .ig-slide{width:100%!important;aspect-ratio:4/5!important}
+  .ig-slide img{width:100%!important;height:100%!important;object-fit:contain!important}
+  .ig-dots{max-width:100%!important;overflow:hidden!important}
+}

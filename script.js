@@ -1,55 +1,14 @@
 document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}));
-
-document.addEventListener('DOMContentLoaded',()=>{
-  const gallery=document.querySelector('.ig-gallery');
-  if(!gallery)return;
-  const slides=Array.from(gallery.querySelectorAll('.ig-slide'));
-  const prev=gallery.querySelector('.ig-prev');
-  const next=gallery.querySelector('.ig-next');
-  const counter=gallery.querySelector('#ig-current');
-  const dotsBox=gallery.querySelector('.ig-dots');
-  if(!slides.length)return;
-
-  let current=0, startX=0, startY=0;
-
-  if(dotsBox){
-    dotsBox.innerHTML='';
-    slides.forEach((_,n)=>{
-      const d=document.createElement('button');
-      d.type='button';
-      d.className='ig-dot';
-      d.setAttribute('aria-label','Ir a foto '+(n+1));
-      d.addEventListener('click',()=>show(n));
-      dotsBox.appendChild(d);
-    });
-  }
-
-  function show(n){
-    current=(n+slides.length)%slides.length;
-    slides.forEach((slide,k)=>slide.classList.toggle('is-active',k===current));
-    if(counter)counter.textContent=String(current+1);
-    gallery.querySelectorAll('.ig-dot').forEach((d,k)=>d.classList.toggle('active',k===current));
-  }
-
-  prev?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();show(current-1)});
-  next?.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();show(current+1)});
-
-  gallery.addEventListener('touchstart',e=>{
-    startX=e.touches[0].clientX;
-    startY=e.touches[0].clientY;
-  },{passive:true});
-
-  gallery.addEventListener('touchend',e=>{
-    const dx=e.changedTouches[0].clientX-startX;
-    const dy=e.changedTouches[0].clientY-startY;
-    if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)*1.25) show(current+(dx<0?1:-1));
-  },{passive:true});
-
-  gallery.tabIndex=0;
-  gallery.addEventListener('keydown',e=>{
-    if(e.key==='ArrowLeft'){e.preventDefault();show(current-1)}
-    if(e.key==='ArrowRight'){e.preventDefault();show(current+1)}
-  });
-
-  show(0);
+document.addEventListener('DOMContentLoaded',function(){
+ const photos=["Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_48_05%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_48_22%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_48_27%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_49_04%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_49_09%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_49_13%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_49_18%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_49_22%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_49_29%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_49_34%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_49_38%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_49_42%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_49_47%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_49_56%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_50_01%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_50_07%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_50_12%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_50_16%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_50_25%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_50_28%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_50_33%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_50_37%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_50_41%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_50_49%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_51_00%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_51_04%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_51_11%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_51_15%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_51_26%20p.m..jpg","Imagen%20de%20ChatGPT%2027%20sept%202026%2C%2003_51_59%20p.m..jpg"];
+ const box=document.getElementById('simple-carousel'), img=document.getElementById('gallery-photo'), count=document.getElementById('gallery-current'), prev=document.getElementById('gallery-prev'), next=document.getElementById('gallery-next');
+ if(!box||!img||photos.length===0)return;
+ let i=0,x0=0,y0=0;
+ function show(n){i=(n+photos.length)%photos.length;img.src=photos[i];img.alt='Alex Sauri — fotografía '+(i+1);count.textContent=String(i+1);}
+ prev.addEventListener('click',function(e){e.preventDefault();show(i-1)});
+ next.addEventListener('click',function(e){e.preventDefault();show(i+1)});
+ box.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+ box.addEventListener('touchmove',function(e){const dx=e.touches[0].clientX-x0,dy=e.touches[0].clientY-y0;if(Math.abs(dx)>Math.abs(dy))e.preventDefault()},{passive:false});
+ box.addEventListener('touchend',function(e){const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy))show(i+(dx<0?1:-1))},{passive:true});
+ show(0);
 });

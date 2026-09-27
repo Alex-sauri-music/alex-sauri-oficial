@@ -95,3 +95,9 @@
  .mobile-menu-panel a{display:block!important;color:#f5f2ec!important;padding:17px 2px!important;border-bottom:1px solid #222!important;font-size:14px!important;letter-spacing:.14em!important;text-transform:uppercase!important}
  .mobile-menu-panel a:last-child{border-bottom:0!important}
 }
+/* Mobile menu spacing refinement */
+@media(max-width:800px){
+ .mobile-menu-panel{padding:8px 7vw 14px!important}
+ .mobile-menu-panel a{display:block!important;width:100%!important;padding:18px 4px!important;margin:0!important;border-bottom:1px solid rgba(210,168,90,.32)!important;color:#f5f2ec!important;font-size:13px!important;line-height:1.2!important;letter-spacing:.16em!important;text-transform:uppercase!important}
+ .mobile-menu-panel a:last-child{border-bottom:none!important}
+}

@@ -35,3 +35,11 @@
   .ig-slide img{width:100%!important;height:100%!important;object-fit:contain!important}
   .ig-dots{max-width:100%!important;overflow:hidden!important}
 }
+
+/* Simple single-image carousel */
+.simple-carousel{position:relative;width:min(100%,720px);margin:28px auto 0;background:#050505;overflow:hidden;overscroll-behavior-x:none;touch-action:pan-y}
+.simple-photo{width:100%;aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.simple-photo img{display:block;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.simple-prev,.simple-next{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:46px;height:46px;border:0;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:34px;cursor:pointer}
+.simple-prev{left:12px}.simple-next{right:12px}.simple-count{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.65);padding:7px 11px;border-radius:18px;color:#fff;font-size:12px}
+@media(max-width:800px){html,body{max-width:100%;overflow-x:hidden}.simple-carousel{width:100%;max-width:100%;margin:18px auto 0}.simple-photo{aspect-ratio:4/5}.simple-prev,.simple-next{width:40px;height:40px;font-size:29px}.simple-prev{left:7px}.simple-next{right:7px}}
